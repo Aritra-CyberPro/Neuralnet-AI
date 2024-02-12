@@ -1,0 +1,53 @@
+{% extends '../blocks/base.html' %}
+
+
+{% block title %}ArtiFlex | NeuralNet{% endblock title %}
+
+{% block styles %}
+
+<style>
+    header {
+        position: sticky !important;
+    }
+</style>
+
+{% endblock styles %}
+
+{% block body %}
+
+<section class="max-h-screen" id="artiflex">
+    <div class="flex items-center justify-center fixed top-24 w-full z-40">
+        <form action="" method="post" class="mx-auto">
+            {% csrf_token %}
+            <input name="query" value="{{query}}" type="text"
+                class="mx-auto p-3 h-14 border-0 outline-none rounded-md shadow-lg text-white text-lg"
+                style="width: 720px; background-color: #1C1C24;" autocomplete="off" placeholder="Get image for anything">
+
+            <button type="submit" class="relative right-8"><i class="fa fa-paper-plane" style="color: #28bfc0;"></i></button>
+        </form>
+    </div>
+
+    {% if query != "" and result != "" %}
+    <div class="mt-14">
+        <div class="container px-5 py-2 mx-auto lg:pt-12 lg:px-32">
+            <div class="flex flex-wrap m-13 justify-evenly img-box">
+                {% for img in result %}
+                <div class="flex flex-wrap w-1/3">
+                    <div class="w-full p-4 img-box">
+                        <img alt="{{query}}"
+                            class="response-img shadow-lg block object-cover object-center w-full h-full rounded-lg"
+                            src="{{img}}">
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</section>
+
+
+
+{% include '../blocks/dismisable-alert.html' %}
+
+{% endblock body %}

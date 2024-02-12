@@ -1,0 +1,91 @@
+{% extends '../blocks/base.html' %}
+
+
+{% block title %}ChitChat | NeuralNet{% endblock title %}
+
+{% block styles %}
+
+<style>
+    header {
+        position: sticky !important;
+    }
+</style>
+
+{% endblock styles %}
+
+{% block body %}
+
+<section class="max-h-screen" id="chitchat">
+    <div class="flex-col items-center justify-center py-12">
+        <div class="mx-auto w-1/2 flex-col items center justify-center">
+            {% if query == "" %}
+            <div>
+                <div class="flex items-center justify-end max-w-fit mb-1">
+                    <img src="/static/images/logo-white.png" class="mr-1.5 w-6" alt="NeuralNet">
+                    <p class="f-medium capitalize text-white">{{bot_name}}</p>
+                </div>
+                <div class="result-box-container">
+                    <div class="result-box">
+                        <span class="col-span-6 text-lg">
+                            Hello! How can I help you
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div>
+                <div class="flex items-center justify-end max-w-fit ml-auto mb-1">
+                    <p class="f-medium capitalize text-white">{{username}}</p>
+                    <img src="/static/images/user-icon-white.png" class="ml-1.5 w-6" alt="NeuralNet">
+                </div>
+                <div class="query-box-container">
+                    <div class="query-box">
+                        <span class="col-span-6 text-lg">
+                            {{query}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="flex items-center justify-end max-w-fit mb-1">
+                    <img src="/static/images/logo-white.png" class="w-6 mr-1.5" alt="NeuralNet">
+                    <p class="f-medium capitalize text-white">{{bot_name}}</p>
+                </div>
+                <div class="result-box-container">
+                    <div class="result-box">
+                        <span class="col-span-6 text-lg">
+                            {{result | linebreaksbr}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="flex items-center justify-center mt-20 fixed bottom-10 w-full z-40">
+        <div class="mx-auto w-full shadow-lg flex items-center justify-center max-w-max py-1.5 px-4 rounded-lg text-white f-medium"
+            style="background-color: #1C1C24;">
+            <form action="" method="post">
+                {% csrf_token %}
+                <input name="query" id="text-query" value="{{query}}" type="text"
+                    class="mx-auto h-12 border-0 outline-none rounded-md text-white text-lg" autocomplete="off"
+                    placeholder="Ask for anything" style="width: 700px; background-color: #1C1C24;">
+
+                <button type="submit" name="form1" class="mx-5">
+                    <i class="fa fa-paper-plane p-color text-xl"></i>
+                </button>
+            </form>
+            <form action="" method="post">
+                {% csrf_token %}
+                <button type="submit" name="form2" id="voice-input"><i class="fa fa-microphone text-xl"></i></button>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+{% include '../blocks/listening-animation.html' %}
+{% include '../blocks/dismisable-alert.html' %}
+
+{% endblock body %}

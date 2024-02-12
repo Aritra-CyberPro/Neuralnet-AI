@@ -1,0 +1,252 @@
+// logo font
+@import url("https://fonts.googleapis.com/css2?family=Lobster+Two:wght@400;700&display=swap");
+
+// body font
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+//utility classes
+$primary-col: #28bfc0;
+$dark-primary-col: #0d8a8a;
+$secondary-col: #1c1c24;
+
+.p-color {
+  color: $primary-col;
+}
+
+.logo {
+  font-family: "Lobster Two", cursive;
+}
+
+.f-light {
+  font-family: "Ubuntu", serif;
+  font-weight: 300;
+}
+.f-medium {
+  font-family: "Ubuntu", serif;
+  font-weight: 500;
+}
+.f-bold {
+  font-family: "Ubuntu", serif;
+  font-weight: 700;
+}
+.section{
+  padding-top: 115px;
+  padding-bottom: 50px;
+}
+
+.square_btn {
+  @extend .f-bold;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 1em 2.8em;
+  text-decoration: none;
+  color: $primary-col;
+  border: solid 3.5px $primary-col;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+}
+
+.square_btn:hover {
+  background: white;
+  color: $primary-col;
+  border-color: white;
+}
+
+.response-img {
+  cursor: pointer;
+  transition: all 0.35s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+//overlay
+#overlay {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: black;
+  opacity: 0.4;
+  z-index: 100;
+}
+
+//LISTENIGN ANIMATION
+#listening-box {
+  z-index: 1000;
+  #listening-close-btn {
+    z-index: 1200;
+  }
+}
+.content-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.waviy {
+  position: relative;
+}
+.waviy span {
+  position: relative;
+  display: inline-block;
+  font-size: 40px;
+  color: $primary-col;
+  text-transform: uppercase;
+  animation: flip 1.2s infinite;
+  animation-delay: calc(0.2s * var(--i));
+}
+@keyframes flip {
+  0%,
+  80% {
+    transform: rotateY(360deg);
+  }
+}
+.circle {
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 0 15px #ffffff;
+  animation: glow 1s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 0 0 #ffffff;
+  }
+  50% {
+    box-shadow: 0 0 0 15px #ffffff;
+  }
+  100% {
+    box-shadow: 0 0 0 0 #ffffff;
+  }
+}
+
+//header
+header {
+  background: none;
+  backdrop-filter: blur(15px);
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+//chitchat
+.query-box-container,
+.result-box-container {
+  display: flex;
+  align-items: center;
+}
+.query-box-container {
+  justify-content: end;
+}
+
+.result-box-container {
+  justify-content: start;
+}
+.query-box,
+.result-box {
+  color: white;
+  max-width: 65%;
+  margin: 5px 0;
+  border-radius: 10px;
+  padding: 0.65rem 1rem;
+}
+.query-box {
+  background-color: $primary-col;
+  border-top-right-radius: 0;
+}
+.result-box {
+  background-color: #1f1f26;
+  border-top-left-radius: 0;
+}
+
+//forms
+.glass-form {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  border: none;
+
+  label, h2{
+    color: white;
+  }
+  input, select, option{
+    color: white;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    background: $secondary-col;
+    border: 2px solid $secondary-col;
+    &:focus{
+      border: 2px solid $primary-col;
+    }
+  }
+}
+
+.btn1{
+  @extend .f-bold;
+  width: 100%;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 0.65em 2em;
+  background: white !important;
+  border-radius: 4px;
+  color: $primary-col !important;
+  transition: all 0.3s ease-in-out;
+  border: 2px solid white;
+  text-transform: uppercase;
+  &:hover{
+    background: none !important;
+    border: 2px solid $primary-col;
+  }
+}
+.links-box{
+  a{
+    color: $primary-col;
+    transition: all 0.1s ease-in-out;
+    &:hover{
+      color: $dark-primary-col;
+    }
+  }
+}
+
+//login and signup
+#login {
+  background: url("/static/images/auth/pexels-eberhard-grossgasteiger-1421903.jpg");
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#signin {
+  background: url("/static/images/auth/pexels-çağatay-demir-2189880.jpg");
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#reset-password{
+  background: url("/static/images/auth/pexels-çağatay-demir-2189880.jpg");
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#email-verify{
+  background: url("/static/images/auth/pexels-çağatay-demir-2189880.jpg");
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#profile{
+  background: url("/static/images/auth/pexels-çağatay-demir-2189880.jpg");
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

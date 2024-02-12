@@ -1,0 +1,225 @@
+from django.shortcuts import render, redirect
+from django.contrib import messages
+import os
+
+from django.contrib.auth.decorators import login_required
+
+import openai
+import speech_recognition as sr
+
+from .threads import *
+
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.core.cache import cache
+
+from accounts.models import User
+from core.models import ChitChat
+
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+
+# Load your API key from an environment variable or secret management service
+openai.api_key = os.environ.get("API_KEY")
+
+
+def home(request):
+    
+    return render(request, './core/home.html')
+
+
+@login_required(login_url="/auth/login")
+def chitchat(request):
+    try:
+        query = result = bot_name = username = ""
+        context = {
+            "query" : query,
+            "result" : result,
+            "bot_name" : bot_name,
+            "username" : username,
+        }
+        
+        getUser = User.objects.filter(email=request.user).first()
+        username = getUser.first_name
+        
+        getBot = ChitChat.objects.filter(user=getUser).first()
+        bot_name = getBot.name
+        
+        if request.method == "POST" and "form1" in request.POST:
+            query = request.POST.get("query")
+            if query == "":
+                message = "Please input some text"
+                messages.error(request, message)
+                result = message
+                
+            else:
+                if cache.get(query):
+                    result = cache.get(query)                
+                else:
+                    userPrompt = getBot.prompt
+                    prompt = userPrompt+f"""\n\nHuman: {query}
+                    \n\nAI:"""
+                                  
+                    response = openai.Completion.create(
+                    model="text-davinci-003",
+                    prompt=prompt,
+                    max_tokens=2048,
+                    temperature=0.9,
+                    top_p=1,
+                    frequency_penalty=0.0,
+                    presence_penalty=0.6,
+                    stop=[" Human:", " AI:"]
+                    )
+                    
+                    result =  response["choices"][0]["text"]
+                    result = result.lstrip()
+                    cache.set(query, result)
+            
+        elif request.method == "POST" and "form2" in request.POST:
+            r = sr.Recognizer()
+            with sr.Microphone() as source:
+                print("Say something!")
+                r.adjust_for_ambient_noise(source)
+                audio = r.listen(source)
+            # recognize speech using Google Speech Recognition
+            try:
+                query = r.recognize_google(audio)
+                if query == "":
+                    message = "Please say something"
+                    messages.error(request, message)
+                    result = message
+                else:
+                    if cache.get(query):
+                        result = cache.get(query)
+                    else:
+                        userPrompt = getBot.prompt
+                        prompt = userPrompt+f"""\n\nHuman: {query}
+                        \n\nAI:""" 
+                            
+                        response = openai.Completion.create(
+                        model="text-davinci-003",
+                        prompt=prompt,
+                        max_tokens=2048,
+                        temperature=0.9,
+                        top_p=1,
+                        frequency_penalty=0.0,
+                        presence_penalty=0.6,
+                        stop=[" Human:", " AI:"]
+                        )
+                        # print(response)
+                        result =  response["choices"][0]["text"]
+                        result = result.lstrip()
+                        cache.set(query, result)
+                
+            except sr.UnknownValueError:
+                result = "I could not understand what you just said. Please say that again"
+            except sr.RequestError as e:
+                result = "Could not request results from Google Speech Recognition service; {0}".format(e)
+        
+        context["query"] = query
+        context["result"] = result
+        context["bot_name"] = bot_name
+        context["username"] = username
+        
+        Speak(getBot.gender, result).start()
+            
+    except Exception as e:
+        print(e)
+    
+    
+    return render(request, './core/chitchat.html', context)
+
+
+@login_required(login_url="/auth/login")
+def codegenie(request):
+    try:
+        context = {
+            "query" : "write a program to find factorial of a number",
+            "result" : "",
+            "language" : "",
+        }
+        
+        if request.method == "POST":
+            query = request.POST.get("query")
+            language = request.POST.get("language")
+            
+            context['language'] = language
+            
+            if query == "":
+                messages.error(request, "Please input some text")
+            else:
+                if cache.get(f"{query}-{language}"):
+                    result = cache.get(f"{query}-{language}")
+                else:
+                    if language == "html":
+                        prompt = f"#{query}\n<!DOCTYPE html>"
+                    else:
+                        prompt = f"#{language}\n#{query}"
+                    
+                    response = openai.Completion.create(
+                    model="code-davinci-002",
+                    prompt=prompt,
+                    temperature=0,
+                    max_tokens=256,
+                    top_p=1,
+                    frequency_penalty=0,
+                    presence_penalty=0
+                    )
+                    result = response["choices"][0]["text"]
+                    result = result.lstrip()
+                    
+                    cache.set(f"{query}-{language}", result)
+
+                context['result'] = result
+                context['query'] = query
+
+    except Exception as e:
+        print(e)
+        
+    return render(request, "./core/codegenie.html", context)
+
+
+@login_required(login_url="/auth/login")
+def artiflex(request):
+    try:
+        context = {
+            "query" : "",
+            "result" : "",
+        }
+        if request.method == "POST":
+            query = request.POST.get("query")
+            if query == "":
+                message = "Please input some text"
+                messages.error(request, message)
+                    
+            else:
+                if cache.get(query):
+                    result = cache.get(query)
+                else:
+                    response = openai.Image.create(
+                    prompt= query,
+                    n=3,
+                    size="256x256"
+                    )
+                    # print(response)
+                    imgURLS = []
+                    for img in response["data"]:
+                        imgURLS.append(img["url"])
+
+                    cache.set(query, imgURLS)
+                    
+                    result = imgURLS
+                    
+                context["query"] = query
+                context["result"] = result
+            
+    except Exception as e:
+        print(e)
+            
+            
+    return render(request, "./core/artiflex.html", context)
+
+
+
+
+
+

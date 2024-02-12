@@ -1,0 +1,66 @@
+{% extends '../blocks/base.html' %}
+
+{% block title %}NeuralNet | Verify Email{% endblock title %}
+
+
+{% block body %}
+
+
+<section class="section w-full flex justify-center items-center mx-auto min-h-screen" id="email-verify">
+    <div action="" method="post" class="glass-form shadow-lg px-10 py-12 w-1/3">
+
+        {% if messages %}
+
+        {% for message in messages %}
+        <div class="{% if message.tags %}{{message.tags}}{% endif %} px-4 py-3 mb-3 rounded relative" role="alert">
+            <strong class="font-bold">Alert</strong>
+            <span class="block sm:inline">{{message}}</span>
+        </div>
+        {% endfor %}
+
+        {% endif %}
+
+        <h2 class="text-4xl capitalize f-medium mb-8">Verify your email</h2>
+
+        <form action="" method="post" class="mb-6">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="block text-lg f-medium mb-2 capitalize" for="email">
+                    email
+                </label>
+                <input
+                    class="appearance-none w-full p-3 leading-tight"
+                    id="email" type="text" placeholder="Email Address" name="email" value="{{email}}">
+            </div>
+            <div class="flex items-center justify-between">
+                <button
+                    class="btn1"
+                    type="submit" name="form1">
+                    Send OTP
+                </button>
+            </div>
+        </form>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="block text-lg f-medium mb-2 capitalize" for="otp">
+                    OTP
+                </label>
+                <input
+                    class="appearance-none w-full p-3 leading-tight"
+                    id="otp" type="text" placeholder="Enter OTP" name="otp" value="{{otp}}">
+            </div>
+            <div class="flex items-center justify-between">
+                <button
+                    class="btn1"
+                    type="submit" name="form2">
+                    Verify Email
+                </button>
+            </div>
+        </form>
+
+    </div>
+</section>
+
+
+{% endblock body %}

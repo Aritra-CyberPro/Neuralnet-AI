@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/static/css/style.css">
+    {% block links %}{% endblock links %} 
+
+    <title>{% block title %}{% endblock title %}</title>
+    
+    {% block styles %}{% endblock styles %} 
+</head>
+<body style="background-color: #14191D;">
+    <header class="w-full p-5 shadow-lg z-10">
+        <nav class="flex items-center justify-between">
+            <div id="logo">
+                <a href="/"><img src="/static/images/full-logo-white-sm.png" class="w-40" alt="NEURALNET" srcset=""></a>
+            </div>
+            <ul class="capitalize flex items-center justify-center text-white">
+                <li class="cursor-pointer px-2 text-xl"><a href="{% url 'home' %}" class="no-underline f-medium {% if request.path == "/" %}p-color{% endif %} ">Home</a></li>
+
+                <li class="cursor-pointer px-2 text-xl"><a href="{% url 'chitchat' %}" class="no-underline f-medium {% if request.path == "/product/chitchat/" %}p-color{% endif %} ">ChitChat</a></li>
+
+                <li class="cursor-pointer px-2 text-xl"><a href="{% url 'codegenie' %}" class="no-underline f-medium {% if request.path == "/product/codegenie/" %}p-color{% endif %} ">CodeGenie</a></li>
+
+                <li class="cursor-pointer px-2 text-xl"><a href="{% url 'artiflex' %}" class="no-underline f-medium {% if request.path == "/product/artiflex/" %}p-color{% endif %} ">ArtiFlex</a></li>
+
+                {% if user.is_authenticated %}
+                <li class="cursor-pointer px-2 text-xl"><a href="{% url 'profile' %}" class="no-underline f-medium {% if request.path == "/auth/profile/" %}p-color{% endif %} ">dashboard</a></li>
+
+                <li class="cursor-pointer px-2 text-xl"><a href="{% url 'logout' %}" class="no-underline f-medium">logout</a></li>
+
+                {% else %}
+                <li class="cursor-pointer px-2 text-xl"><a href="{% url 'login' %}" class="no-underline f-medium {% if request.path == "/auth/login/" %}p-color{% endif %} ">login</a></li>
+
+                <li class="cursor-pointer px-2 text-xl"><a href="{% url 'signin' %}" class="no-underline f-medium {% if request.path == "/auth/signin/" %}p-color{% endif %} ">signin</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    {% block body %}
+    {% endblock body %}
+    
+</body>
+</html>

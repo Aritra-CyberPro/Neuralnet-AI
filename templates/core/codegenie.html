@@ -1,0 +1,94 @@
+{% extends '../blocks/base.html' %}
+
+{% block links %}
+
+<script language="javascript" type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+<script language="javascript" type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/perl/perl.min.js"></script>
+
+<link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+</link>
+<link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/abbott.min.css">
+</link>
+
+{% endblock links %}
+
+{% block styles %}
+
+<style>
+    .CodeMirror {
+        height: 100% !important;
+    }
+    header{
+        position: sticky;
+    }
+</style>
+
+{% endblock styles %}
+
+{% block title %}CodeGenie | NeuralNet{% endblock title %}
+
+{% block body %}
+
+<section class="min-h-screen" id="codegenie">
+    <div class="p-8 h-screen">
+        <form method="post" action="" class="h-full">
+            {% csrf_token %}
+            <div class="h-5/6 grid grid-cols-6 gap-4">
+                <div class="col-span-2 h-full">
+                    <textarea id="code-query" name="query"
+                        class="h-full w-full">{{query}}</textarea>
+                </div>
+                <div class="col-span-4 min-h-full">
+                    <textarea id="code-result" class="h-full w-full">{{result | safe}}</textarea>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between mt-2.5 z-20">
+                <button type="submit"
+                    class="text-white bg-blue-500 transition-all duration-200 hover:bg-blue-700 font-bold py-2.5 px-5 rounded focus:outline-none focus:shadow-outline uppercase">Submit</button>
+                <select name="language"
+                    class="form-select appearance-none block w-4/12  px-3 py-1.5 text-lg font-normal  text-gray-700  bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    aria-label="Default select example f-medium">
+                    <option value="python" {% if language == "" or language == "python"%}selected{% endif %}>Python</option>
+                    <option value="javascript" {% if language == "javascript"%}selected{% endif %}>Javascript</option>
+                    <option value="c++" {% if language == "c++"%}selected{% endif %}>C++</option>
+                    <option value="c#" {% if language == "c#"%}selected{% endif %}>C#</option>
+                    <option value="c" {% if language == "c"%}selected{% endif %}>C</option>
+                    <option value="php" {% if language == "php"%}selected{% endif %}>PHP</option>
+                    <option value="java" {% if language == "java"%}selected{% endif %}>Java</option>
+                    <option value="r language" {% if language == "r language"%}selected{% endif %}>R Language</option>
+                    <option value="rust" {% if language == "rust"%}selected{% endif %}>Rust</option>
+                    <option value="ruby" {% if language == "ruby"%}selected{% endif %}>Ruby</option>
+                    <option value="html" {% if language == "html"%}selected{% endif %}>HTML</option>
+                </select>
+            </div>
+        </form>
+    </div>
+
+</section>
+
+{% include '../blocks/dismisable-alert.html' %}
+
+<script>
+    var editor1 = CodeMirror.fromTextArea(document.getElementById('code-query'), {
+        lineNumbers: true,
+        mode: 'text/x-perl',
+        theme: 'abbott',
+        lineNumbers: true,
+        matchBrackets: true,
+    });
+
+    var editor2 = CodeMirror.fromTextArea(document.getElementById('code-result'), {
+        lineNumbers: true,
+        mode: 'text/x-perl',
+        theme: 'abbott',
+        lineNumbers: true,
+        matchBrackets: true,
+    });
+</script>
+
+{% endblock body %}
