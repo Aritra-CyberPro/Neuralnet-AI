@@ -59,10 +59,10 @@ Note : You have to create app password for the email you are using in `EMAIL_HOS
 Create a folder and open terminal and install this project by
 command 
 ```bash
-git clone https://github.com/Mr-Atanu-Roy/NeuralNet
+https://github.com/Aritra-Mondal-ICS/Neuralnet-AI.git
 
 ```
-or simply download this project from https://github.com/Mr-Atanu-Roy/NeuralNet
+or simply download this project from https://github.com/Aritra-Mondal-ICS/Neuralnet-AI.git
 
 In project directory Create a virtual environment(say env) :
 
@@ -104,5 +104,5 @@ Then go to http://127.0.0.1:8000 in your browser to see the project
 
 ## Author
 
-- [@Mr-Atanu-Roy](https://www.github.com/Mr-Atanu-Roy)
+- [@Aritra-Mondal-ICS](https://www.github.com/Aritra-Mondal-ICS)
 
