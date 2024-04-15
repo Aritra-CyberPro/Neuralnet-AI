@@ -59,7 +59,7 @@ Note : You have to create app password for the email you are using in `EMAIL_HOS
 Create a folder and open terminal and install this project by
 command 
 ```bash
-https://github.com/Aritra-Mondal-ICS/Neuralnet-AI.git
+https://github.com/Aritra-ISS/Neuralnet-AI.git
 
 ```
 or simply download this project from https://github.com/Aritra-Mondal-ICS/Neuralnet-AI.git
