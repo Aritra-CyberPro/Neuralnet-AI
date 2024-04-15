@@ -104,5 +104,5 @@ Then go to http://127.0.0.1:8000 in your browser to see the project
 
 ## Author
 
-- [@Aritra-Mondal-ICS](https://www.github.com/Aritra-Mondal-ICS)
+- [@Aritra-ISS](https://github.com/Aritra-ISS)
 
