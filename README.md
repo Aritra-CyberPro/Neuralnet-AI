@@ -1,4 +1,3 @@
-
 ## Features
 There are mainly 3 functionalitys of this project. Their names with functionalities are given below :
 
@@ -62,7 +61,7 @@ command
 https://github.com/Aritra-ISS/Neuralnet-AI.git
 
 ```
-or simply download this project from https://github.com/Aritra-Mondal-ICS/Neuralnet-AI.git
+or simply download this project from https://github.com/Aritra-ISS/Neuralnet-AI.git
 
 In project directory Create a virtual environment(say env) :
 
