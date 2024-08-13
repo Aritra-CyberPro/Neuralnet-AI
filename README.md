@@ -61,7 +61,6 @@ command
 https://github.com/Aritra-CyberPro/Neuralnet-AI.git
 
 ```
-or simply download this project from https://github.com/Aritra-ISS/Neuralnet-AI.git
 
 In project directory Create a virtual environment(say env) :
 
